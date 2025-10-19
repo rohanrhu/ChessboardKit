@@ -60,6 +60,7 @@ ChessboardKit renders the chessboard based on the provided FEN string and update
       - [Sliding Animation for Piece Movements](#sliding-animation-for-piece-movements)
       - [Flip The Board for Player Perspective](#flip-the-board-for-player-perspective)
       - [Highlighting Squares](#highlighting-squares)
+      - [Legal Move Highlighting](#legal-move-highlighting)
       - [Waiting State and Avoiding User Interaction](#waiting-state-and-avoiding-user-interaction)
       - [Pawn Promotion](#pawn-promotion)
       - [Fen Validation](#fen-validation)
@@ -88,6 +89,7 @@ ChessboardKit renders the chessboard based on the provided FEN string and update
 - Render chessboards with customizable sizes and styles
 - Support for FEN notation to set up board positions
 - Interactive piece movement with legality checks
+- Legal move highlighting
 - Promotion picker for pawn promotions
 - Slide animation for piece movements
 - Highlighting squares for better user interaction
@@ -225,7 +227,7 @@ The `Chessboard` view automatically adjusts its size based on the provided frame
 
 #### FEN Rendering
 
-ChessboardKit renders the chessboard based on the provided FEN string. You can set or get the FEN string using the `ChessboardModel.setFen(_ fen: String, lan: String? = nil)` method.
+ChessboardKit renders the chessboard based on the provided FEN string. You can get the FEN string by `ChessBoardModel.fen` or set it by using the `ChessboardModel.setFen(_ fen: String, lan: String? = nil)` method.
 
 ```swift
 chessboardModel.setFen("New FEN string")
@@ -283,6 +285,22 @@ To clear all highlighted squares:
 chessboardModel.clearHint()
 ```
 
+#### Legal Move Highlighting
+
+ChessboardKit automatically highlights legal moves when a piece is selected or dragged. This feature is enabled by default and shows dots on squares where the selected piece can legally move.
+
+To disable automatic legal move highlighting:
+
+```swift
+@State var chessboardModel = ChessboardModel(fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+                                             highlightLegalMoves: false)
+
+// ... or set ti here
+chessboardModel.highlightLegalMoves = false
+```
+
+The legal move dots are displayed using the `legalMove` color from your color scheme, which can be customized (see [Color Schemes](#color-schemes)).
+
 #### Waiting State and Avoiding User Interaction
 
 Indicate a waiting state on the board:
@@ -333,6 +351,8 @@ If you want `Chessboard` view to check the legality of moves, you can enable it 
 - `inWaiting`: `Bool` - Indicates if the board is in a waiting state
 - `selectedSquare`: `BoardSquare?` - The currently selected square on the board
 - `hintedSquares`: `Set<BoardSquare>` - A set of squares that are highlighted
+- `highlightLegalMoves`: `Bool` - Whether to highlight legal moves when a piece is selected or dragged (default: `true`)
+- `legalMoveSquares`: `Set<BoardSquare>` - A set of squares that represent legal move destinations
 - `showPromotionPicker`: `Bool` - Whether the promotion picker is currently displayed
 - `game`: `Game` - The underlying chess game object
 - `currentMove`: `Move?` and `prevMove: Move?` - Current and previous move objects
@@ -435,6 +455,7 @@ public protocol ChessboardColorScheme: Sendable {
     var label: Color { get }
     var selected: Color { get }
     var hinted: Color { get }
+    var legalMove: Color { get }
 }
 ```
 
@@ -447,6 +468,7 @@ public struct CustomColorScheme: ChessboardColorScheme {
     public var label: Color = Color.gray
     public var selected: Color = Color.blue
     public var hinted: Color = Color.red
+    public var legalMove: Color = Color(red: 0.30, green: 0.30, blue: 0.30, opacity: 0.4)
 }
 ```
 

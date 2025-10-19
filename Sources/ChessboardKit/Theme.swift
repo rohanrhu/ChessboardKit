@@ -19,6 +19,7 @@ public protocol ChessboardColorScheme: Sendable {
     var label: Color { get }
     var selected: Color { get }
     var hinted: Color { get }
+    var legalMove: Color { get }
 }
 
 public struct ChessboardColorSchemes {
@@ -30,6 +31,7 @@ public struct ChessboardColorSchemes {
         
         public var selected: Color = Color(red: 0.20, green: 0.80, blue: 0.20)
         public var hinted: Color = Color(red: 0.80, green: 0.20, blue: 0.20)
+        public var legalMove: Color = Color(red: 0.30, green: 0.30, blue: 0.30, opacity: 0.4)
         
         public init() {}
     }
@@ -42,6 +44,7 @@ public struct ChessboardColorSchemes {
         
         public var selected: Color = Color(red: 0.20, green: 0.80, blue: 0.20)
         public var hinted: Color = Color(red: 0.80, green: 0.20, blue: 0.20)
+        public var legalMove: Color = Color(red: 0.70, green: 0.70, blue: 0.70, opacity: 0.4)
         
         public init() {}
     }
@@ -53,6 +56,7 @@ public struct ChessboardColorSchemes {
         
         public var selected: Color = Color(red: 0.20, green: 0.80, blue: 0.20)
         public var hinted: Color = Color(red: 0.80, green: 0.20, blue: 0.20)
+        public var legalMove: Color = Color(red: 0.30, green: 0.30, blue: 0.30, opacity: 0.4)
         
         public init() {}
     }
@@ -65,6 +69,7 @@ public struct ChessboardColorSchemes {
         
         public var selected: Color = Color(red: 0.20, green: 0.80, blue: 0.20)
         public var hinted: Color = Color(red: 0.80, green: 0.20, blue: 0.20)
+        public var legalMove: Color = Color(red: 0.30, green: 0.30, blue: 0.30, opacity: 0.4)
         
         public init() {}
     }
@@ -77,6 +82,7 @@ public struct ChessboardColorSchemes {
         
         public var selected: Color = Color(red: 0.20, green: 0.80, blue: 0.20)
         public var hinted: Color = Color(red: 0.80, green: 0.20, blue: 0.20)
+        public var legalMove: Color = Color(red: 0.30, green: 0.30, blue: 0.30, opacity: 0.4)
         
         public init() {}
     }
@@ -89,6 +95,7 @@ public struct ChessboardColorSchemes {
         
         public var selected: Color = Color(red: 0.20, green: 0.80, blue: 0.20)
         public var hinted: Color = Color(red: 0.80, green: 0.20, blue: 0.20)
+        public var legalMove: Color = Color(red: 0.30, green: 0.30, blue: 0.30, opacity: 0.4)
         
         public init() {}
     }
@@ -101,6 +108,7 @@ public struct ChessboardColorSchemes {
         
         public var selected: Color = Color(red: 0.20, green: 0.80, blue: 0.20)
         public var hinted: Color = Color(red: 0.80, green: 0.20, blue: 0.20)
+        public var legalMove: Color = Color(red: 0.30, green: 0.30, blue: 0.30, opacity: 0.4)
         
         public init() {}
     }
@@ -113,6 +121,7 @@ public struct ChessboardColorSchemes {
         
         public var selected: Color = Color(red: 0.20, green: 0.80, blue: 0.20)
         public var hinted: Color = Color(red: 0.80, green: 0.20, blue: 0.20)
+        public var legalMove: Color = Color(red: 0.30, green: 0.30, blue: 0.30, opacity: 0.4)
         
         public init() {}
     }

@@ -60,6 +60,9 @@ public class ChessboardModel {
     public var selectedSquare: BoardSquare?
     public var hintedSquares: Set<BoardSquare> = []
     
+    public var highlightLegalMoves: Bool = true
+    public var legalMoveSquares: Set<BoardSquare> = []
+    
     public var showPromotionPicker = false
     
     public var game: Game
@@ -79,12 +82,14 @@ public class ChessboardModel {
     public init(fen: String = EMPTY_FEN,
                 perspective: PieceColor = .white,
                 colorScheme: ChessboardColorScheme = .light,
-                allowOpponentMove: Bool = false)
+                allowOpponentMove: Bool = false,
+                highlightLegalMoves: Bool = true)
     {
         self.game = Game(position: FenSerialization.default.deserialize(fen: fen))
         self.perspective = perspective
         self.colorScheme = colorScheme
         self.allowOpponentMove = allowOpponentMove
+        self.highlightLegalMoves = highlightLegalMoves
     }
     
     public var onMove: (Move, Bool, String, String, String, PieceKind? ) -> Void = { _, _, _, _, _, _ in }
@@ -114,6 +119,30 @@ public class ChessboardModel {
     
     public func deselect() {
         selectedSquare = nil
+        legalMoveSquares.removeAll()
+    }
+    
+    public func updateLegalMoveHighlights(for square: BoardSquare) {
+        guard highlightLegalMoves else {
+            legalMoveSquares.removeAll()
+            return
+        }
+        
+        legalMoveSquares.removeAll()
+        
+        let index = square.row + square.column * 8
+        guard game.position.board[index] != nil else { return }
+        
+        for move in game.legalMoves {
+            if move.from.rank == square.row && move.from.file == square.column {
+                let targetSquare = BoardSquare(row: move.to.rank, column: move.to.file)
+                legalMoveSquares.insert(targetSquare)
+            }
+        }
+    }
+    
+    public func clearLegalMoveHighlights() {
+        legalMoveSquares.removeAll()
     }
     
     public func hint(_ square: BoardSquare) {
@@ -321,6 +350,7 @@ public struct Chessboard: View {
                 labelsView
                 squaresView
                 piecesView
+                legalMoveHighlightsView
                 
                 MovingPieceView(animation: animation)
                 
@@ -521,6 +551,18 @@ public struct Chessboard: View {
         }
     }
     
+    var legalMoveHighlightsView: some View {
+        ZStack {
+            ForEach(Array(chessboardModel.legalMoveSquares), id: \.id) { square in
+                Circle()
+                    .fill(chessboardModel.colorScheme.legalMove)
+                    .frame(width: chessboardModel.size / 24, height: chessboardModel.size / 24)
+                    .position(x: chessboardModel.size / 16 + chessboardModel.size / 8 * CGFloat(chessboardModel.shouldFlipBoard ? 7 - square.column : square.column),
+                              y: chessboardModel.size / 16 + chessboardModel.size / 8 * CGFloat(chessboardModel.shouldFlipBoard ? square.row : 7 - square.row))
+            }
+        }
+    }
+    
     public func onMove(_ callback: @escaping (Move, Bool, String, String, String, PieceKind?) -> Void) -> Chessboard {
         chessboardModel.onMove = callback
         return self
@@ -672,8 +714,12 @@ private struct ChessPieceView: View {
         
         if isSelected {
             chessboardModel.selectedSquare = nil
+            chessboardModel.clearLegalMoveHighlights()
         } else if piece != nil && chessboardModel.selectedSquare == nil {
             chessboardModel.selectedSquare = isSelected ? nil: BoardSquare(row: square.row, column: square.column)
+            if chessboardModel.selectedSquare != nil {
+                chessboardModel.updateLegalMoveHighlights(for: BoardSquare(row: square.row, column: square.column))
+            }
         } else if let selectedSquare = chessboardModel.selectedSquare {
             let sourceRow = selectedSquare.row
             let sourceColumn = selectedSquare.column
@@ -686,6 +732,7 @@ private struct ChessPieceView: View {
             let isLegal = chessboardModel.game.legalMoves.contains(move)
             
             chessboardModel.deselect()
+            chessboardModel.clearLegalMoveHighlights()
             
             guard let selectedPiece = chessboardModel.game.position.board[selectedSquare.row + selectedSquare.column * 8]
             else { return }
@@ -725,10 +772,16 @@ private struct ChessPieceView: View {
                 {
                     chessboardModel.selectedSquare = nil
                     isDragging = false
+                    chessboardModel.clearLegalMoveHighlights()
                     return
                 }
                 
                 chessboardModel.selectedSquare = nil
+                
+                if !isDragging {
+                    chessboardModel.updateLegalMoveHighlights(for: BoardSquare(row: square.row, column: square.column))
+                }
+                
                 isDragging = true
                 
                 let squareSize = chessboardModel.size / 8
@@ -745,6 +798,7 @@ private struct ChessPieceView: View {
                 chessboardModel.selectedSquare = nil
                 chessboardModel.dropTarget = nil
                 isDragging = false
+                chessboardModel.clearLegalMoveHighlights()
                 
                 if let piece, piece.color != chessboardModel.turn,
                    !chessboardModel.allowOpponentMove && piece.color != chessboardModel.perspective {
@@ -796,8 +850,7 @@ private struct ChessPieceView: View {
 }
 
 public extension View {
-  func modifier<ModifiedContent: View>(@ViewBuilder content: (_ content: Self) -> ModifiedContent
-  ) -> ModifiedContent {
-    content(self)
-  }
+    func modifier<ModifiedContent: View>(@ViewBuilder content: (_ content: Self) -> ModifiedContent) -> ModifiedContent {
+        content(self)
+    }
 }
