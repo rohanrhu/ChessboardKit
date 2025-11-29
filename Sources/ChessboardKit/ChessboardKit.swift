@@ -485,7 +485,7 @@ public struct Chessboard: View {
     }
     
     func rowLabelView(row: Int) -> some View {
-        let displayRow = chessboardModel.shouldFlipBoard ? row : (7 - row)
+        let displayRow = chessboardModel.shouldFlipBoard ? (7 - row) : row
         let labelSize = chessboardModel.size / 32
         let squareSize = chessboardModel.size / 8
         
