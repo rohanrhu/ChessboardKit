@@ -78,8 +78,9 @@ ChessboardKit renders the chessboard based on the provided FEN string and update
     - [Custom Color Scheme Example](#custom-color-scheme-example)
   - [Advanced Example Usage](#advanced-example-usage)
   - [❤️ Donations ❤️](#️-donations-️)
-    - [Cryptocurrency Donations](#cryptocurrency-donations)
+  - [❤️ Buy QuakeNotch to support me ❤️](#️-buy-quakenotch-to-support-me-️)
   - [❤️ Buy MacsyZones to support me ❤️](#️-buy-macsyzones-to-support-me-️)
+  - [Cryptocurrency Donations](#cryptocurrency-donations)
   - [Contributing](#contributing)
   - [Acknowledgments](#acknowledgments)
   - [License](#license)
@@ -684,6 +685,7 @@ public struct TestBoard: View {
     ContentView()
 }
 ```
+
 </details>
 
 This example shows a complete implementation of a ChessboardKit sample with FEN validation, board size adjustment, hints, and a promotion picker.
@@ -695,19 +697,21 @@ You love [ChessboardKit](https://github.com/rohanrhu/ChessboardKit)? You can sup
 - [Patreon](https://www.patreon.com/evrenselkisilik)
 - [GitHub Sponsors](https://github.com/sponsors/rohanrhu)
 
-### Cryptocurrency Donations
+## ❤️ Buy QuakeNotch to support me ❤️
 
-| Currency          | Address                                                                                         |
-| ----------------- | ----------------------------------------------------------------------------------------------- |
-| BTC               | bc1qhvlc762kwuzeawedl9a8z0duhs8449nwwc35e2                                                      |
-| ETH / USDT / USDC | 0x1D99B2a2D85C34d478dD8519792e82B18f861974                                                      |
-| XMR               | 88qvS4sfUnLZ7nehFrz3PG1pWovvEgprcUhkmVLaiL8PVAFgfHjspjKPLhWLj3DUcm92rwNQENbJ1ZbvESdukWvh3epBUty |
-
-Preferably, donating USDT or USDC is recommended but you can donate any of the above currencies. 🥳
+You can buy my [QuakeNotch](https://quakenotch.com) app to support me. QuakeNotch is a **Quake Terminal** and **Apple Music Player** that lives on your MacBook's notch.
 
 ## ❤️ Buy MacsyZones to support me ❤️
 
 You can buy my [MacsyZones](https://macsyzones.com) app to support me. MacsyZones is a revolutionary window manager for macOS.
+
+## Cryptocurrency Donations
+
+| Currency          | Address                                                                                         |
+| ----------------- | ----------------------------------------------------------------------------------------------- |
+| ETH / USDT / USDC | 0x1D99B2a2D85C34d478dD8519792e82B18f861974                                                      |
+
+Preferably, donating USDT or USDC is recommended but you can donate any of the above currencies. 🥳
 
 ## Contributing
 
