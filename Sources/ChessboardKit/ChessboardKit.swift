@@ -561,6 +561,7 @@ public struct Chessboard: View {
                               y: chessboardModel.size / 16 + chessboardModel.size / 8 * CGFloat(chessboardModel.shouldFlipBoard ? square.row : 7 - square.row))
             }
         }
+        .allowsHitTesting(false)
     }
     
     public func onMove(_ callback: @escaping (Move, Bool, String, String, String, PieceKind?) -> Void) -> Chessboard {
